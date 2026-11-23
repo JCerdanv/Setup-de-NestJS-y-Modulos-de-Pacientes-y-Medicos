@@ -1,0 +1,94 @@
+// archivo: prisma/schema.prisma 
+
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+//generator client {
+//  provider = "prisma-client.js"
+//  output   = "../src/config/prisma"
+//}
+
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum EstadoCita {
+  PROGRAMADA
+  COMPLETADA
+  CANCELADA
+}
+
+enum Role {
+  RECEPCIONISTA
+  MEDICO
+  GERENCIA
+}
+
+model Especialidad {
+  id      Int      @id @default(autoincrement()) 
+  nombre  String   @unique
+  descripcion String? 
+  medicos Medico[]
+
+  @@map("especialidades")
+}
+
+model Medico {
+  id           Int          @id @default(autoincrement()) 
+  nombre       String
+  apellido     String
+  cmp          String       @unique
+  phone_number String
+  ecorreo      String
+  specialtyId  Int          @map("specialty_id")
+  especialidad Especialidad @relation(fields: [specialtyId], references: [id])
+  citas        Cita[]
+  user         User?
+
+  @@map("medicos")
+}
+
+model Paciente {
+  id           Int    @id @default(autoincrement()) 
+  nombre       String
+  apellido     String
+  dni          String @unique
+  phone_number String
+  ecorreo      String
+  fechaNacimiento DateTime @map("fecha_nacimiento")
+  comentario   String?
+  citas        Cita[]
+
+  @@map("pacientes")
+}
+
+model Cita {
+  id         Int        @id @default(autoincrement()) 
+  patientId  Int        @map("patient_id")
+  paciente   Paciente   @relation(fields: [patientId], references: [id])
+  doctorId   Int        @map("doctor_id")
+  medico     Medico     @relation(fields: [doctorId], references: [id])
+  dateTime   DateTime   @map("date_time")
+  status     EstadoCita @default(PROGRAMADA)
+  diagnosis  String?
+
+  @@map("citas")
+}
+
+model User {
+  id       Int     @id @default(autoincrement()) 
+  name     String
+  email    String  @unique
+  password String
+  role_id  Int     @map("role_id")
+  role     Role
+  doctorId Int?    @unique @map("doctor_id")
+  medico   Medico? @relation(fields: [doctorId], references: [id])
+
+  @@map("users")
+}
