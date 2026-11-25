@@ -2,8 +2,8 @@
 
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { Prisma } from '@prisma/client';
-
+import { CreateMedicoDto } from './dto/create-medico.dto';
+import { UpdateMedicoDto } from './dto/update-medico.dto';
 @Injectable()
 export class MedicosService {
   constructor(private readonly prisma: PrismaService) {}
@@ -18,21 +18,17 @@ export class MedicosService {
     });
   }
 
-  create(data: Prisma.MedicoCreateInput) {
+  create(data: CreateMedicoDto) {
     return this.prisma.medico.create({
-      data: {
-        ...data,
-      },
-    });
+      data,
+      });
   }
 
-  update(id: number, data: Prisma.MedicoUpdateInput) {
+  update(id: number, data: UpdateMedicoDto) {
     return this.prisma.medico.update({
       where: { id },
-      data: {
-        ...data,
-      },
-    });
+      data,
+      });
   }
 
   remove(id: number) {

@@ -44,7 +44,7 @@ model Medico {
   apellido     String
   cmp          String       @unique
   phone_number String
-  ecorreo      String
+  ecorreo      String       @unique
   specialtyId  Int          @map("specialty_id")
   especialidad Especialidad @relation(fields: [specialtyId], references: [id])
   citas        Cita[]
@@ -59,7 +59,7 @@ model Paciente {
   apellido     String
   dni          String @unique
   phone_number String
-  ecorreo      String
+  ecorreo      String @unique
   fechaNacimiento DateTime @map("fecha_nacimiento")
   comentario   String?
   citas        Cita[]
@@ -83,7 +83,7 @@ model Cita {
 model User {
   id       Int     @id @default(autoincrement()) 
   name     String
-  email    String  @unique
+  ecorreo  String  @unique
   password String
   role_id  Int     @map("role_id")
   role     Role
