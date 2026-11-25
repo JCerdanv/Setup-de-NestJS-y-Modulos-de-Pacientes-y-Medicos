@@ -1,5 +1,8 @@
 // src/medicos/medicos.controller.ts
 
+import { CreateMedicoDto } from './dto/create-medico.dto';
+import { UpdateMedicoDto } from './dto/update-medico.dto';
+
 import {
   Controller,
   Get,
@@ -31,12 +34,12 @@ export class MedicosController {
   }
 
   @Post()
-  create(@Body() body: any) {
+  create(@Body() body: CreateMedicoDto ) {
     return this.medicosService.create(body);
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() body: any) {
+  update(@Param('id') id: string, @Body() body: UpdateMedicoDto ) {
     return this.medicosService.update(+id, body);
   }
 
