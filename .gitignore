@@ -1,7 +1,8 @@
-# compiled output
+# compiled output ok
 /dist
 /node_modules
 /build
+/generated
 
 # TypeScript build cache
 *.tsbuildinfo
@@ -44,6 +45,9 @@ lerna-debug.log*
 .env.test.local
 .env.production.local
 .env.local
+.env.production
+.env.development
+.env.test
 
 # temp directory
 .temp
@@ -54,6 +58,15 @@ pids
 *.pid
 *.seed
 *.pid.lock
+
+# Archivos compilados junto al código fuente
+*.js.map
+*.d.ts
+
+#otros
+.agents
+_legacy_express
+
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
