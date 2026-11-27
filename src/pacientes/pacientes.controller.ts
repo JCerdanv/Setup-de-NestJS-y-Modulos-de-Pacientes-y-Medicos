@@ -1,9 +1,14 @@
 // src/pacientes/pacientes.controller.ts
+
+import { Controller, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+
 import { CreatePacienteDto } from './dto/create-paciente.dto';
 import { UpdatePacienteDto } from './dto/update-paciente.dto';
 
 import {
-  Controller,
   Get,
   Post,
   Put,
@@ -13,8 +18,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PacientesService } from './pacientes.service';
-
-@Controller('pacientes')
+@Controller('pacientes') // en medicos.controller.ts mantiene @Controller('medicos')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles('RECEPCIONISTA')
 export class PacientesController {
   constructor(private readonly pacientesService: PacientesService) {}
 
